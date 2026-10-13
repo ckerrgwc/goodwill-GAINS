@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .animate-flash {
+    animation: flash 0.35s ease-out;
+  }
+}
+
+@keyframes flash {
+  0% { transform: scale(0.98); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Hide number spinners — they get in the way of fast keyboard entry. */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] { -moz-appearance: textfield; }
+
+/* Print exactly one element (a price tag or a receipt). See lib/print.js. */
+@media print {
+  @page { margin: 8mm; }
+  body.printing * { visibility: hidden; }
+  body.printing .print-target,
+  body.printing .print-target * { visibility: visible; }
+  body.printing .print-target {
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
