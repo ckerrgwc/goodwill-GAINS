@@ -3,7 +3,7 @@ import { useStore } from '../store.jsx';
 import { priceCart, roundMoney, TAX_RATE } from '../lib/pricing.js';
 import { nextTransactionId, normalizeScan } from '../lib/ids.js';
 import { dateTime, money } from '../lib/format.js';
-import { printElement } from '../lib/print.js';
+import { PRINT_ENABLED, printElement } from '../lib/print.js';
 import { beep } from '../lib/sound.js';
 import Receipt from './Receipt.jsx';
 import { Button, Card, Modal, Segmented, StatusBadge, TagBadge, inputClass } from './ui.jsx';
@@ -398,8 +398,10 @@ function ReceiptModal({ txn, onClose }) {
         <div className="max-h-[55vh] overflow-y-auto rounded-xl bg-slate-100 py-5">
           <Receipt ref={ref} txn={txn} />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <Button variant="dark" size="lg" onClick={() => printElement(ref.current)}>🖨 Print Receipt</Button>
+        <div className={`grid gap-3 ${PRINT_ENABLED ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          {PRINT_ENABLED && (
+            <Button variant="dark" size="lg" onClick={() => printElement(ref.current)}>🖨 Print Receipt</Button>
+          )}
           <Button size="lg" onClick={onClose}>New Sale</Button>
         </div>
       </div>

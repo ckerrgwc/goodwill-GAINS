@@ -1,3 +1,6 @@
+// Builds embedded where the browser blocks printing set VITE_DISABLE_PRINT=1.
+export const PRINT_ENABLED = import.meta.env?.VITE_DISABLE_PRINT !== '1';
+
 // Print a single element: everything else is hidden by the print stylesheet
 // in index.css while body.printing is set.
 export function printElement(el) {

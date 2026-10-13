@@ -13,6 +13,7 @@ npm install
 npm run dev      # http://localhost:5173
 npm test         # pricing / tag rotation / barcode unit tests
 npm run build    # static bundle in dist/
+npm run build:demo  # single self-contained HTML in dist-demo/ (printing disabled)
 ```
 
 ## Modules

@@ -20,6 +20,13 @@ function readHash() {
 function Shell() {
   const { state, dispatch } = useStore();
   const [tab, setTab] = useState(readHash);
+  const [confirmReset, setConfirmReset] = useState(false);
+
+  useEffect(() => {
+    if (!confirmReset) return;
+    const t = setTimeout(() => setConfirmReset(false), 4000);
+    return () => clearTimeout(t);
+  }, [confirmReset]);
 
   useEffect(() => {
     const onHash = () => setTab(readHash());
@@ -79,12 +86,19 @@ function Shell() {
             </div>
             <button
               type="button"
-              className="rounded-lg px-3 py-2 text-xs font-semibold text-slate-400 ring-1 ring-slate-700 hover:bg-slate-800 hover:text-white"
+              className={`rounded-lg px-3 py-2 text-xs font-semibold ring-1 transition ${
+                confirmReset ? 'bg-red-600 text-white ring-red-600 hover:bg-red-700' : 'text-slate-400 ring-slate-700 hover:bg-slate-800 hover:text-white'
+              }`}
               onClick={() => {
-                if (window.confirm('Reset all inventory and sales to the demo data?')) dispatch({ type: 'RESET' });
+                if (confirmReset) {
+                  dispatch({ type: 'RESET' });
+                  setConfirmReset(false);
+                } else {
+                  setConfirmReset(true);
+                }
               }}
             >
-              Reset demo
+              {confirmReset ? 'Click again to reset' : 'Reset demo'}
             </button>
           </div>
         </div>

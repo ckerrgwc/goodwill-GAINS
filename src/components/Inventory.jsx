@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { STATUSES, useStore } from '../store.jsx';
 import { TAG_COLORS, isPastRotation, rotationSchedule } from '../lib/tags.js';
 import { dateTime, money, shortDate } from '../lib/format.js';
-import { printElement } from '../lib/print.js';
+import { PRINT_ENABLED, printElement } from '../lib/print.js';
 import PriceTag from './PriceTag.jsx';
 import { Button, Card, Field, Modal, Segmented, Select, StatusBadge, TagBadge, inputClass } from './ui.jsx';
 
@@ -337,7 +337,9 @@ function ItemDetail({ item, onClose, dispatch }) {
       <div className="grid gap-6 md:grid-cols-[auto_1fr]">
         <div className="flex flex-col items-center gap-3">
           <PriceTag ref={tagRef} item={item} />
-          <Button variant="dark" className="w-full" onClick={() => printElement(tagRef.current)}>🖨 Reprint Tag</Button>
+          {PRINT_ENABLED && (
+            <Button variant="dark" className="w-full" onClick={() => printElement(tagRef.current)}>🖨 Reprint Tag</Button>
+          )}
         </div>
         <div className="space-y-5">
           <div>

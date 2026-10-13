@@ -15,7 +15,7 @@ import {
 import { tagColorForDate, todayISO } from '../lib/tags.js';
 import { nextItemId } from '../lib/ids.js';
 import { money } from '../lib/format.js';
-import { printElement } from '../lib/print.js';
+import { PRINT_ENABLED, printElement } from '../lib/print.js';
 import PriceTag from './PriceTag.jsx';
 import { Button, Card, Field, Modal, Segmented, Select, TagBadge, inputClass } from './ui.jsx';
 
@@ -269,7 +269,7 @@ export default function Intake() {
               </div>
             </Field>
             <Button size="xl" className="mt-4 w-full" disabled={!valid} onClick={submit}>
-              Add to Inventory & Print Tag · {money(finalPrice)}
+              Add to Inventory{PRINT_ENABLED && ' & Print Tag'} · {money(finalPrice)}
             </Button>
             {!valid && <p className="mt-2 text-center text-xs text-slate-500">Fill in description, {dept === 'Clothing' ? 'category and condition' : 'type, material, condition and value'}.</p>}
           </div>
@@ -307,10 +307,12 @@ export default function Intake() {
             <div className="flex justify-center rounded-xl bg-slate-100 py-6">
               <PriceTag ref={tagRef} item={created} />
             </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              <Button variant="dark" size="lg" onClick={() => printElement(tagRef.current)}>
-                🖨 Print Tag
-              </Button>
+            <div className={`grid gap-3 ${PRINT_ENABLED ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
+              {PRINT_ENABLED && (
+                <Button variant="dark" size="lg" onClick={() => printElement(tagRef.current)}>
+                  🖨 Print Tag
+                </Button>
+              )}
               <Button variant="secondary" size="lg" onClick={() => nextItem({ keepAttributes: true })}>
                 Similar Item
               </Button>
